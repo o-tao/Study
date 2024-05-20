@@ -1,2 +1,0 @@
-# Study
-java study
