@@ -1,4 +1,4 @@
-package testJdbc0529;
+package testJdbc0530;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -21,172 +21,119 @@ public class AppController {
 	/****************************************************************/
 	// 1단계 테이블 생성하기
 	private void 테이블생성(Connection conn) {
-		sql =  "create OR REPLACE table "
-				+ " study ("
-				+ " 번호 		int,"
-				+ " 이름 		varchar(50),"
-				+ " 성별 		varchar(50),"
-				+ " 특징 		varchar(50),"
-				+ " 해적단 	varchar(50),"
-				+ " 역할		varchar(50)"
+		sql = "create OR REPLACE table "
+				+ " study1 ("
+				+ " no 				int,"
+				+ " email 			varchar(50),"
+				+ " password 		varchar(50),"
+				+ " delYn 			boolean"
 				+ " )"; // DDL 추가
-		System.out.println("테이블 생성 SQL문 확인 : " + sql);
-		// 코드추가를 확인 후 아래의 주석을 풀고 실행하세요.		
-		db.테이블생성(conn, sql);
+	System.out.println("테이블 생성 SQL문 확인 : " + sql);
+	// 코드추가를 확인 후 아래의 주석을 풀고 실행하세요.		
+	db.테이블생성(conn, sql);
+	
+	
+	sql = "insert into study1 value (?, ?, ?, ?)"; // DML 추가
+	System.out.println("SQL문 확인 : " + sql);
+	DbTable data = new DbTable();
+	/*****************************************
+	 *  Scanner 사용시 추가
+	 *****************************************/
+	List<DbTable> list = 데이터생성();
+	System.out.print("행의 개수를 입력하세요: ");
+	int 행 = scan.nextInt();
+	scan.nextLine(); // 마지막에 추가
+		for(int i = 0; i < 행; i++) {
+			System.out.println("출력 할 번호를 입력하세요(행의 개수" + 행 + "): ");
+			data = list.get(scan.nextInt()-1);
+			scan.nextLine();
+			// 코드추가를 확인 후 아래의 주석을 풀고 실행하세요.
+			db.데이터입력하기(conn, sql, data);
+			System.out.println(data);
+				
+			}
 	}
 	
 	// 2단계 생성된 테이블에 데이터 입력하기
 	private void 입력하기(Connection conn) {
-		sql = "insert into study value (?, ?, ?, ?, ?, ?)"; // DML 추가
+		sql = "insert into study1 value (?, ?, ?, ?)"; // DML 추가
 		System.out.println("SQL문 확인 : " + sql);
 		DbTable data = new DbTable();
-		
 		/*****************************************
 		 *  Scanner 사용시 추가
 		 *****************************************/
 		
-//		data = new DbTable();
-//		System.out.print("번호를 입력해주세요: ");
-//		data.set번호(scan.nextInt());
-//		scan.nextLine();
-//		System.out.print("이름을 입력해주세요: ");
-//		data.set이름(scan.nextLine());
-//		System.out.print("성별을 입력해주세요: ");
-//		data.set성별(scan.nextLine());
-//		System.out.print("특징을 입력해주세요: ");
-//		data.set특징(scan.nextLine());
-//		System.out.print("해적단을 입력해주세요: ");
-//		data.set해적단(scan.nextLine());
-//		System.out.print("역할을 입력해주세요: ");
-//		data.set역할(scan.nextLine());
-		List<DbTable> list = 데이터생성();
-		System.out.print("행의 개수를 입력하세요: ");
-		int 행 = scan.nextInt();
-		for (int i = 0; i < 행; i++) {
-
-			System.out.print("출력 할 번호를 입력하세요(행의 개수" + 행 + "): ");
-			data = list.get(scan.nextInt()-1);
-			scan.nextLine();
 		
+		data = new DbTable();
+		data.setNo(5);
+		System.out.print("추가 할 Email을 입력하세요: ");
+		data.setEmail(scan.nextLine());
+		System.out.print("추가 할 Password를 입력하세요: ");
+		data.setPassword(scan.nextLine());
+		System.out.println("삭제여부 (Y, N)");
+		data.setDelYn(scan.nextLine());
 		
-		System.out.println(data);
 		// 코드추가를 확인 후 아래의 주석을 풀고 실행하세요.
 		db.데이터입력하기(conn, sql, data);
-		}
+		System.out.println(data);
+			
+				
+		
 	}
 	
 	private List 데이터생성() {
 		List<DbTable> list = new ArrayList();
 		DbTable data = new DbTable();
-		data.set번호(1);
-		data.set이름("몽키 D 루피");
-		data.set성별("남자");
-		data.set특징("고무고무 열매");
-		data.set해적단("밀짚모자");
-		data.set역할("선장");
-		list.add(data); // 리스트에 추가
+		data.setNo(1);
+		data.setEmail("홍길동@이메일.컴");
+		data.setPassword("pAssWorD");
+		data.setDelYn("N");
+		list.add(data);
 		
 		data = new DbTable();
-		data.set번호(2);
-		data.set이름("롤로노아 조로");
-		data.set성별("남자");
-		data.set특징("삼도류");
-		data.set해적단("밀짚모자");
-		data.set역할("부선장");
-		list.add(data); // 리스트에 추가
+		data.setNo(2);
+		data.setEmail("유관순@이메일.컴");
+		data.setPassword("1@34%");
+		data.setDelYn("Y");
+		list.add(data);
 		
 		data = new DbTable();
-		data.set번호(3);
-		data.set이름("상디");
-		data.set성별("남자");
-		data.set특징("요리사");
-		data.set해적단("밀짚모자");
-		data.set역할("요리사");
-		list.add(data); // 리스트에 추가
+		data.setNo(3);
+		data.setEmail("이순신@이메일.컴");
+		data.setPassword("!!9!2#");
+		data.setDelYn("Y");
+		list.add(data);
 		
 		data = new DbTable();
-		data.set번호(4);
-		data.set이름("나미");
-		data.set성별("여자");
-		data.set특징("항해사");
-		data.set해적단("밀짚모자");
-		data.set역할("항해사");
-		list.add(data); // 리스트에 추가
-		
-		data = new DbTable();
-		data.set번호(5);
-		data.set이름("우솝");
-		data.set성별("남자");
-		data.set특징("사격");
-		data.set해적단("밀짚모자");
-		data.set역할("저격수");
-		list.add(data); // 리스트에 추가
-		
-		data = new DbTable();
-		data.set번호(6);
-		data.set이름("토니토니 쵸파");
-		data.set성별("미정");
-		data.set특징("사람사람 열매");
-		data.set해적단("밀짚모자");
-		data.set역할("의사");
-		list.add(data); // 리스트에 추가
-		
-		data = new DbTable();
-		data.set번호(7);
-		data.set이름("니코 로빈");
-		data.set성별("여자");
-		data.set특징("꽃꽃 열매");
-		data.set해적단("밀짚모자");
-		data.set역할("고고학자");
-		list.add(data); // 리스트에 추가
-		
-		data = new DbTable();
-		data.set번호(8);
-		data.set이름("프랑키");
-		data.set성별("남자");
-		data.set특징("사이보그");
-		data.set해적단("밀짚모자");
-		data.set역할("조선공");
-		list.add(data); // 리스트에 추가
-		
-		data = new DbTable();
-		data.set번호(9);
-		data.set이름("브룩");
-		data.set성별("남자");
-		data.set특징("연주자");
-		data.set해적단("밀짚모자");
-		data.set역할("선원");
-		list.add(data); // 리스트에 추가
-		
-		data = new DbTable();
-		data.set번호(10);
-		data.set이름("버기");
-		data.set성별("남자");
-		data.set특징("동강동강 열매");
-		data.set해적단("버기");
-		data.set역할("선장");
-		list.add(data); // 리스트에 추가
+		data.setNo(4);
+		data.setEmail("화이슬@이메일.컴");
+		data.setPassword("hiDe");
+		data.setDelYn("N");
+		list.add(data);
 		
 		return list;
+		
 	}
 	
 	// 3단계 생성된 데이터 가져오기 >> 목록 출력 시 화면출력() 메소드를 사용하시오.
 	private void 가져오기(Connection conn) {
-		sql = "select * from study"; // DML 추가
+		sql = "select * from study1"; // DML 추가
 		System.out.println("SQL문 확인 : " + sql);
 		화면출력(db.데이터가져오기(conn, sql));
 	}
 	
 	// 4단계 생성된 데이터 수정하기
 	private void 수정하기(Connection conn) {
-		sql = "update study set 역할 = ? where 번호 = ?"; // DML 추가
+		sql = "update study1 set email = ?, password = ? where no = ? "; // DML 추가
 		System.out.println("SQL문 확인 : " + sql);
 		DbTable data = new DbTable();
 		/*****************************************
 		 *  Scanner 사용시 추가
 		 *****************************************/
-		data.set역할("광대");
-		data.set번호(10);
+		data.setEmail("신총맨@이메일.컴");
+		data.setPassword("tlschsaos");
+		data.setNo(4);
+		
 		System.out.println(data);
 		// 코드추가를 확인 후 아래의 주석을 풀고 실행하세요.
 		db.데이터수정하기(conn, sql, data);
@@ -194,14 +141,14 @@ public class AppController {
 	
 	// 5단계 생성된 데이터 삭제하기
 	private void 삭제하기(Connection conn) {
-		sql = "delete from study where 번호 = ?"; // DML 추가
+		sql = "update study1 set delYn = false where no = ?"; // DML 추가
 		System.out.println("SQL문 확인 : " + sql);
 		DbTable data = new DbTable();
 
 		/*****************************************
 		 *  Scanner 사용시 추가
 		 *****************************************/
-		data.set번호(10);
+		data.setNo(5);
 
 		System.out.println(data);
 		// 코드추가를 확인 후 아래의 주석을 풀고 실행하세요.
@@ -230,7 +177,6 @@ public class AppController {
 	private boolean 디비접속() {
 		boolean result = false;
 		boolean key = true;
-
 		while(key) {
 			System.out.println("데이터베이스에 연결하시겠습니까?(Y/N)");
 			switch (scan.nextLine()) {
@@ -255,28 +201,28 @@ public class AppController {
 			try {
 				Connection conn = db.openDB(URL, USER, PASSWORD);
 				if(conn != null) {
-					테이블생성(conn); // 개별로 사용하기 위해 void 사용
+					테이블생성(conn);					
 					boolean key = true;
 					while(key) {
 						System.out.println("어떤 기능을 실행하시겠습니까?(C입력/R읽기/U수정/D삭제/E종료");
 						switch (scan.nextLine()) {
-							case "C":
+							case "C": 
 							case "c":
 								입력하기(conn);
 								break;
-							case "R":
+							case "R": 
 							case "r":
 								가져오기(conn);
 								break;
-							case "U":
+							case "U": 
 							case "u":
 								수정하기(conn);
 								break;
-							case "D":
+							case "D": 
 							case "d":
 								삭제하기(conn);
 								break;
-							case "E":
+							case "E": 
 							case "e":
 								key = false;
 								break;

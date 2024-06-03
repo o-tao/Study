@@ -1,4 +1,4 @@
-package testJdbc0529;
+package testJdbc0530;
 
 public class App {
 
@@ -28,3 +28,4 @@ public class App {
 	}
 
 }
+//DatabaseMetaData
