@@ -1,4 +1,4 @@
-package test;
+package testJdbc0529;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -41,26 +41,30 @@ public class DBConnection {
 	public List<DbTable> 데이터가져오기(Connection conn, String sql) {
 		List<DbTable> list = new ArrayList<DbTable>();
 		DbTable data;
+		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
+			
 			while(rs.next()){
-				data = new DbTable();
 
 				// 데이터를 매핑하시오.
-				data.setNo(rs.getInt("no"));
-				data.setName(rs.getString("name"));
-				data.setEmail(rs.getString("Email"));
-				data.setPwd(rs.getString("pwd"));
-				data.setDel(rs.getBoolean("Del"));
+				data = new DbTable();
+				data.set번호(rs.getInt("번호"));
+				data.set이름(rs.getString("이름"));
+				data.set성별(rs.getString("성별"));
+				data.set특징(rs.getString("특징"));
+				data.set해적단(rs.getString("해적단"));
+				data.set역할(rs.getString("역할"));
+				System.out.println(data);
 
-				list.add(data);
 			}
 			rs.close();
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return list;
 	}
 
@@ -70,12 +74,12 @@ public class DBConnection {
 
 			// 데이터를 매핑하시오.
 			
-			pstmt.setInt(1, data.getNo());
-			pstmt.setString(2, data.getName());
-			pstmt.setString(3, data.getEmail());
-			pstmt.setString(4, data.getPwd());
-			pstmt.setBoolean(5, data.isDel());
-			
+			pstmt.setInt(1, data.get번호());
+			pstmt.setString(2, data.get이름());
+			pstmt.setString(3, data.get성별());
+			pstmt.setString(4, data.get특징());
+			pstmt.setString(5, data.get해적단());
+			pstmt.setString(6, data.get역할());
 
 			int state = pstmt.executeUpdate();
 			pstmt.close();
@@ -92,9 +96,9 @@ public class DBConnection {
 			pstmt = conn.prepareStatement(sql);
 
 			// 데이터를 매핑하시오.
-			pstmt.setString(1, data.getEmail());
-			pstmt.setString(2, data.getPwd());
-			pstmt.setInt(3, data.getNo());
+			
+			pstmt.setString(1, data.get역할());
+			pstmt.setInt(2, data.get번호());
 
 			int state = pstmt.executeUpdate();
 			pstmt.close();
@@ -112,9 +116,9 @@ public class DBConnection {
 			pstmt = conn.prepareStatement(sql);
 
 			// 데이터를 매핑하시오.
-			pstmt.setBoolean(1, data.isDel());
-			pstmt.setInt(2, data.getNo());
-
+			
+			pstmt.setInt(1, data.get번호());
+			
 			int state = pstmt.executeUpdate();
 			pstmt.close();
 			conn.commit();
