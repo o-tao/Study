@@ -1,4 +1,4 @@
-package testJdbc0530;
+package testJdbc0531;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -48,10 +48,16 @@ public class DBConnection {
 				data = new DbTable();
 
 				// 데이터를 매핑하시오.
-				data.setNo(rs.getInt("no"));
+				data.setEmpno(rs.getString("empno"));
+				data.setName(rs.getString("name"));
 				data.setEmail(rs.getString("email"));
-				data.setPassword(rs.getString("password"));
-				data.setDelYn(rs.getBoolean("delYn")? "Y" : "N" );
+				data.setDeptname(rs.getString("deptname"));
+				data.setPosition(rs.getString("position"));
+				data.setPhone(rs.getString("phone"));
+				data.setAge(rs.getInt("age"));
+				data.setIsused2(rs.getString("isused2"));
+				data.setCreatedate(rs.getString("createdate"));
+				data.setUpdatedate(rs.getString("updatedate"));
 
 				list.add(data);
 			}
@@ -68,12 +74,17 @@ public class DBConnection {
 			pstmt = conn.prepareStatement(sql);
 
 			// 데이터를 매핑하시오.
-			
-			pstmt.setInt(1, data.getNo());
-			pstmt.setString(2, data.getEmail());
-			pstmt.setString(3, data.getPassword());
-			pstmt.setBoolean(4, "Y".equals(data.getDelYn())? true : false );
-			
+			pstmt.setString(1, data.getEmpno());
+			pstmt.setString(2, data.getName());
+			pstmt.setString(3, data.getEmail());
+			pstmt.setString(4, data.getDeptname());
+			pstmt.setString(5, data.getPosition());
+			pstmt.setString(6, data.getPhone());
+			pstmt.setInt(7, data.getAge());
+			pstmt.setBoolean(8, data.isIsused());
+			pstmt.setString(9, data.getCreatedate());
+			pstmt.setString(10, data.getUpdatedate());
+
 			int state = pstmt.executeUpdate();
 			pstmt.close();
 			conn.commit();
@@ -89,10 +100,12 @@ public class DBConnection {
 			pstmt = conn.prepareStatement(sql);
 
 			// 데이터를 매핑하시오.
-			
-			pstmt.setString(1, data.getEmail());
-			pstmt.setString(2, data.getPassword());
-			pstmt.setInt(3, data.getNo());
+			pstmt.setString(1, data.getName());
+			pstmt.setString(2, data.getDeptname());
+			pstmt.setString(3, data.getPhone());
+			pstmt.setBoolean(4, data.isIsused());
+			pstmt.setString(5, data.getUpdatedate());
+			pstmt.setString(6, data.getEmpno());
 
 			int state = pstmt.executeUpdate();
 			pstmt.close();
@@ -110,7 +123,9 @@ public class DBConnection {
 			pstmt = conn.prepareStatement(sql);
 
 			// 데이터를 매핑하시오.
-			pstmt.setBoolean(1, ("Y".equals(data.getDelYn())? true : false ));
+			pstmt.setString(1, data.getUpdatedate());
+			pstmt.setBoolean(2, data.isIsused());
+			pstmt.setString(3, data.getEmpno());
 
 			int state = pstmt.executeUpdate();
 			pstmt.close();

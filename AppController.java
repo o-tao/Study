@@ -1,8 +1,10 @@
-package testJdbc0530;
+package testJdbc0531;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,117 +24,160 @@ public class AppController {
 	// 1단계 테이블 생성하기
 	private void 테이블생성(Connection conn) {
 		sql = "create OR REPLACE table "
-				+ " study1 ("
-				+ " no 				int,"
-				+ " email 			varchar(50),"
-				+ " password 		varchar(50),"
-				+ " delYn 			boolean"
+				+ " studyTest ("
+				+ " empno 			varchar(50),"
+				+ " name 			varchar(50),"
+				+ " email	 		varchar(50),"
+				+ " deptname 		varchar(50),"
+				+ " position 		varchar(50),"
+				+ " phone	 		varchar(50),"
+				+ " age 			int,"
+				+ " isused 			boolean,"
+				+ " createdate 		date,"
+				+ " updatedate 		date "
 				+ " )"; // DDL 추가
-	System.out.println("테이블 생성 SQL문 확인 : " + sql);
-	// 코드추가를 확인 후 아래의 주석을 풀고 실행하세요.		
-	db.테이블생성(conn, sql);
+		System.out.println("테이블 생성 SQL문 확인 : " + sql);
+		// 코드추가를 확인 후 아래의 주석을 풀고 실행하세요.		
+		db.테이블생성(conn, sql);
+		
+	}
 	
-	
-	sql = "insert into study1 value (?, ?, ?, ?)"; // DML 추가
-	System.out.println("SQL문 확인 : " + sql);
-	DbTable data = new DbTable();
-	/*****************************************
-	 *  Scanner 사용시 추가
-	 *****************************************/
-	List<DbTable> list = 데이터생성();
-	System.out.print("행의 개수를 입력하세요: ");
-	int 행 = scan.nextInt();
-	scan.nextLine(); // 마지막에 추가
-		for(int i = 0; i < 행; i++) {
-			System.out.println("출력 할 번호를 입력하세요(행의 개수" + 행 + "): ");
-			data = list.get(scan.nextInt()-1);
-			scan.nextLine();
-			// 코드추가를 확인 후 아래의 주석을 풀고 실행하세요.
-			db.데이터입력하기(conn, sql, data);
-			System.out.println(data);
-				
-			}
+	private void 초기데이터(Connection conn) {
+		sql = "insert into studyTest"; // DML 추가
+		sql += "(empno, name, email, deptname, position, phone, age, isused, createdate, updatedate)";
+		sql += "value (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		System.out.println("SQL문 확인 : " + sql);
+		
+		DbTable data = new DbTable();
+		data.setEmpno("2405001");
+		data.setName("카리나");
+		data.setEmail("karina@email.com");
+		data.setDeptname("에스파");
+		data.setPosition("가수");
+		data.setPhone("01012345678");
+		data.setAge(25);
+		data.setIsused(true);
+		data.setCreatedate("2020-01-17");
+		data.setUpdatedate("2024-02-03");
+		db.데이터입력하기(conn, sql, data);
+		
+		data = new DbTable();
+		data.setEmpno("2405002");
+		data.setName("윈터");
+		data.setEmail("winter@email.com");
+		data.setDeptname("에스파");
+		data.setPosition("가수");
+		data.setPhone("01023456789");
+		data.setAge(24);
+		data.setIsused(true);
+		data.setCreatedate("2020-01-17");
+		data.setUpdatedate("2023-12-20");
+		db.데이터입력하기(conn, sql, data);
+		
+		data = new DbTable();
+		data.setEmpno("2405003");
+		data.setName("김채원");
+		data.setEmail("cheawon@email.com");
+		data.setDeptname("르세라핌");
+		data.setPosition("가수");
+		data.setPhone("01034567891");
+		data.setAge(25);
+		data.setIsused(true);
+		data.setCreatedate("2022-05-02");
+		data.setUpdatedate("2023-06-15");
+		db.데이터입력하기(conn, sql, data);
+		
+		data = new DbTable();
+		data.setEmpno("2405004");
+		data.setName("강동원");
+		data.setEmail("dongwon@email.com");
+		data.setDeptname("AA그룹");
+		data.setPosition("배우");
+		data.setPhone("01045678912");
+		data.setAge(25);
+		data.setIsused(true);
+		data.setCreatedate("2003-05-31");
+		data.setUpdatedate("2019-02-05");
+		db.데이터입력하기(conn, sql, data);
+		
+		data = new DbTable();
+		data.setEmpno("2405005");
+		data.setName("원빈");
+		data.setEmail("wonbin@email.com");
+		data.setDeptname("이든나인");
+		data.setPosition("배우");
+		data.setPhone("01056789123");
+		data.setAge(25);
+		data.setIsused(true);
+		data.setCreatedate("1997-06-01");
+		data.setUpdatedate("2015-09-07");
+		db.데이터입력하기(conn, sql, data);
+		
 	}
 	
 	// 2단계 생성된 테이블에 데이터 입력하기
 	private void 입력하기(Connection conn) {
-		sql = "insert into study1 value (?, ?, ?, ?)"; // DML 추가
+		sql = "insert into studyTest"
+				+ "(empno, name, email, deptname, position, phone, age, isused, createdate, updatedate)"
+				+ "value (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"; // DML 추가
 		System.out.println("SQL문 확인 : " + sql);
 		DbTable data = new DbTable();
 		/*****************************************
 		 *  Scanner 사용시 추가
 		 *****************************************/
+		Date tpDay = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String day = dateFormat.format(tpDay);
 		
+		data.setEmpno("2405006");
+		data.setName("마동석");
+		data.setEmail("onepunch@email.com");
+		data.setDeptname("빅펀치엔터테인먼트");
+		data.setPosition("행동대장");
+		data.setPhone("01000020001");
+		data.setAge(53);
+		data.setIsused(true);
+		data.setCreatedate(day);
+		data.setUpdatedate(day);
 		
-		data = new DbTable();
-		data.setNo(5);
-		System.out.print("추가 할 Email을 입력하세요: ");
-		data.setEmail(scan.nextLine());
-		System.out.print("추가 할 Password를 입력하세요: ");
-		data.setPassword(scan.nextLine());
-		System.out.println("삭제여부 (Y, N)");
-		data.setDelYn(scan.nextLine());
-		
+		System.out.println(data);
 		// 코드추가를 확인 후 아래의 주석을 풀고 실행하세요.
 		db.데이터입력하기(conn, sql, data);
-		System.out.println(data);
-			
-				
 		
 	}
 	
-	private List 데이터생성() {
-		List<DbTable> list = new ArrayList();
-		DbTable data = new DbTable();
-		data.setNo(1);
-		data.setEmail("홍길동@이메일.컴");
-		data.setPassword("pAssWorD");
-		data.setDelYn("N");
-		list.add(data);
-		
-		data = new DbTable();
-		data.setNo(2);
-		data.setEmail("유관순@이메일.컴");
-		data.setPassword("1@34%");
-		data.setDelYn("Y");
-		list.add(data);
-		
-		data = new DbTable();
-		data.setNo(3);
-		data.setEmail("이순신@이메일.컴");
-		data.setPassword("!!9!2#");
-		data.setDelYn("Y");
-		list.add(data);
-		
-		data = new DbTable();
-		data.setNo(4);
-		data.setEmail("화이슬@이메일.컴");
-		data.setPassword("hiDe");
-		data.setDelYn("N");
-		list.add(data);
-		
-		return list;
-		
-	}
 	
 	// 3단계 생성된 데이터 가져오기 >> 목록 출력 시 화면출력() 메소드를 사용하시오.
 	private void 가져오기(Connection conn) {
-		sql = "select * from study1"; // DML 추가
+//		sql = "select * from studyTest"; // DML 추가
+		sql = "select empno, name, email, deptname, position, phone, age, ";
+		sql += " case when isused = 1 then '재직중' else '퇴사' END AS isused2, ";
+		sql += " DATE_FORMAT(createdate, '%Y-%m-%d') AS createdate, ";
+		sql += " DATE_FORMAT(updatedate, '%Y-%m-%d') AS updatedate ";
+		sql += " from studyTest ";
+		sql += " ORDER BY createdate desc";
 		System.out.println("SQL문 확인 : " + sql);
 		화면출력(db.데이터가져오기(conn, sql));
 	}
 	
 	// 4단계 생성된 데이터 수정하기
 	private void 수정하기(Connection conn) {
-		sql = "update study1 set email = ?, password = ? where no = ? "; // DML 추가
+		sql = "update studyTest set name = ?, deptname = ?, phone = ?, isused = ?, updatedate = ? where empno = ?"; // DML 추가
 		System.out.println("SQL문 확인 : " + sql);
 		DbTable data = new DbTable();
 		/*****************************************
 		 *  Scanner 사용시 추가
 		 *****************************************/
-		data.setEmail("신총맨@이메일.컴");
-		data.setPassword("tlschsaos");
-		data.setNo(4);
+		Date toDay = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String day = dateFormat.format(toDay);
+		
+		data.setEmpno("2405002");
+		data.setName("겨울");
+		data.setDeptname("솔로가수");
+		data.setPhone("01022222222");
+		data.setIsused(false);
+		data.setUpdatedate(day);
 		
 		System.out.println(data);
 		// 코드추가를 확인 후 아래의 주석을 풀고 실행하세요.
@@ -141,15 +186,22 @@ public class AppController {
 	
 	// 5단계 생성된 데이터 삭제하기
 	private void 삭제하기(Connection conn) {
-		sql = "update study1 set delYn = false where no = ?"; // DML 추가
+		sql = "update studyTest set updatedate = ?, isused = ? where empno = ?"; // DML 추가
 		System.out.println("SQL문 확인 : " + sql);
 		DbTable data = new DbTable();
+		
 
 		/*****************************************
 		 *  Scanner 사용시 추가
 		 *****************************************/
-		data.setNo(5);
 
+		Date toDay = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String day = dateFormat.format(toDay);
+		data.setEmpno("2405005");
+		data.setIsused(false);
+		data.setUpdatedate(day);
+		
 		System.out.println(data);
 		// 코드추가를 확인 후 아래의 주석을 풀고 실행하세요.
 		db.데이터삭제하기(conn, sql, data);
@@ -177,8 +229,8 @@ public class AppController {
 	private boolean 디비접속() {
 		boolean result = false;
 		boolean key = true;
+		System.out.println("데이터베이스에 연결하시겠습니까?(Y/N)");
 		while(key) {
-			System.out.println("데이터베이스에 연결하시겠습니까?(Y/N)");
 			switch (scan.nextLine()) {
 				case "Y":
 				case "y":
@@ -201,7 +253,8 @@ public class AppController {
 			try {
 				Connection conn = db.openDB(URL, USER, PASSWORD);
 				if(conn != null) {
-					테이블생성(conn);					
+					테이블생성(conn);		
+					초기데이터(conn);
 					boolean key = true;
 					while(key) {
 						System.out.println("어떤 기능을 실행하시겠습니까?(C입력/R읽기/U수정/D삭제/E종료");
